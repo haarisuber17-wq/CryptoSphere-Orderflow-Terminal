@@ -1,0 +1,1 @@
+- [Binance depth synchronization](binance-depth-sync.md) — public diff-depth streams require a REST snapshot handshake and sequence-gap recovery.

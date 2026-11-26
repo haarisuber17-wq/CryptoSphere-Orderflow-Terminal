@@ -1,0 +1,24 @@
+kind = "mobile"
+previewPath = "/habit-coach/"
+title = "Habit Coach"
+description = "A distinctive Android-first daily habit coach that adapts to the user's energy, celebrates consistency without guilt, and turns small actions into a visual daily rhythm."
+version = "1.0.0"
+id = "artifacts/habit-coach"
+router = "expo-domain"
+
+[[services]]
+name = "expo"
+ensurePreviewReachable = "/status"
+paths = [ "/habit-coach/" ]
+localPort = 25753
+
+[services.development]
+run = "pnpm --filter @workspace/habit-coach run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/habit-coach", "run", "build" ]
+run = [ "pnpm", "--filter", "@workspace/habit-coach", "run", "serve" ]
+
+[services.env]
+PORT = "25753"
+BASE_PATH = "/habit-coach/"

@@ -1,0 +1,12 @@
+{
+  "framework": "vite",
+  "installCommand": "pnpm install --frozen-lockfile",
+  "buildCommand": "PORT=24981 BASE_PATH=/ pnpm --filter @workspace/orderflow-terminal run build",
+  "outputDirectory": "artifacts/orderflow-terminal/dist/public",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
