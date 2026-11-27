@@ -499,7 +499,7 @@ export function useBinanceMarket(symbol: string, interval: string, paused: boole
            time: num(order.T) || Date.now(),
            side: order.S === 'BUY' ? 'buy' : 'sell',
          };
-         setLiquidations((items) => [liquidation, ...items].slice(0, 16));
+         setLiquidations((items) => [liquidation, ...items].slice(0, 500));
       }
     };
      return () => {

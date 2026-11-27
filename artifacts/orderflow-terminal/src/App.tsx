@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { Route, Router as WouterRouter, Switch } from 'wouter';
-import { Activity, ArrowDownUp, BarChart3, BellRing, BookOpen, ChevronDown, CircleHelp, Crosshair, Expand, Grid2X2, LayoutPanelLeft, Minimize2, Pause, Play, RotateCcw, Search, ShieldCheck, SlidersHorizontal, Star, Sun, Target, TrendingDown, TrendingUp, X } from 'lucide-react';
+import { Activity, ArrowDownUp, BarChart3, BellRing, BookOpen, ChevronDown, CircleHelp, Crosshair, Expand, Flame, Grid2X2, LayoutPanelLeft, Minimize2, Pause, Play, RotateCcw, Search, ShieldCheck, SlidersHorizontal, Star, Sun, Target, TrendingDown, TrendingUp, X } from 'lucide-react';
 import AbsorptionVisualizer from '@/components/absorption-visualizer';
 import DomVisualizer from '@/components/dom-visualizer';
 import { IcebergRadar } from '@/components/iceberg-radar';
+import LiquidationAnalytics from '@/components/liquidation-analytics';
 import MarketRegimeDetector from '@/components/market-regime-detector';
 import MoveRadar from '@/components/move-radar';
 import OpenInterestScreener from '@/components/open-interest-screener';
@@ -101,8 +102,8 @@ function VolumeScreener({ symbols, selected, onSelect }: { symbols: SymbolInfo[]
   </section>;
 }
 
-function TopBar({ symbol, setSymbol, interval, setInterval, favorites, onFavorite, symbols, contractType, setContractType, status, lastMessageAt, latencyMs, onReconnect, paused, onPause, compactMode, onCompact, secondaryOpen, onSecondary }: { symbol: string; setSymbol: (value: string) => void; interval: string; setInterval: (value: string) => void; favorites: string[]; onFavorite: (value: string) => void; symbols: ReturnType<typeof usePerpetualSymbols>['symbols']; contractType: ContractType; setContractType: (value: ContractType) => void; status: MarketStatus; lastMessageAt: number | null; latencyMs: number | null; onReconnect: () => void; paused: boolean; onPause: () => void; compactMode: boolean; onCompact: () => void; secondaryOpen: boolean; onSecondary: () => void }) {
-  return <><header className="topbar"><div className="brand"><div className="brand-orb" aria-hidden="true"><span className="brand-orb-core" /><span className="brand-orb-ring brand-orb-ring-a" /><span className="brand-orb-ring brand-orb-ring-b" /></div><div className="brand-copy"><strong>CryptoSphere</strong><small>OrdeFlow Terminal</small><small className="brand-market">BINANCE / {contractType.toUpperCase()}</small></div></div><div className="top-divider" /><div className="contract-switch" aria-label="Contract type"><button className={contractType === 'usdt-m' ? 'active' : ''} onClick={() => setContractType('usdt-m')} data-testid="button-contract-usdt">USDT-M</button><button className={contractType === 'coin-m' ? 'active coin' : ''} onClick={() => setContractType('coin-m')} data-testid="button-contract-coin">COIN-M</button></div><SymbolPicker {...{ symbol, symbols, favorites, contractType, onSelect: setSymbol, onFavorite }} /><div className="control-group timeframes">{timeframes.map((item) => <button key={item} className={interval === item ? 'active' : ''} onClick={() => setInterval(item)} data-testid={`button-timeframe-${item}`}>{item}</button>)}</div><div className="top-actions"><button className="icon-button" onClick={onCompact} title="Toggle compact layout" data-testid="button-layout-toggle">{compactMode ? <LayoutPanelLeft size={15} /> : <Grid2X2 size={15} />}</button><button className={`icon-button ${secondaryOpen ? 'is-active' : ''}`} onClick={onSecondary} title="Show secondary analysis surfaces" aria-expanded={secondaryOpen} data-testid="button-secondary-surfaces"><SlidersHorizontal size={15} /></button><button className={`feed-button ${paused ? 'is-paused' : ''}`} onClick={onPause} data-testid="button-pause-feed">{paused ? <Play size={13} /> : <Pause size={13} />}{paused ? 'Resume' : 'Pause feed'}</button><FeedLatency latencyMs={latencyMs} status={status} /><StatusPill status={status} onReconnect={onReconnect} /></div></header><div className="ticker-strip"><div className="ticker-label"><Activity size={13} /> LIVE BINANCE FEED</div><div className="ticker-copy">Aggressive flow, liquidity & execution pressure <span>•</span> click the analysis icon for secondary surfaces</div><div className="ticker-right"><span className="live-bar" /> stream interval 100ms <StreamHealth status={status} lastMessageAt={lastMessageAt} /><span className="ticker-time">{new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} UTC</span></div></div></>;
+function TopBar({ symbol, setSymbol, interval, setInterval, favorites, onFavorite, symbols, contractType, setContractType, status, lastMessageAt, latencyMs, onReconnect, paused, onPause, compactMode, onCompact, secondaryOpen, onSecondary, onLiquidation }: { symbol: string; setSymbol: (value: string) => void; interval: string; setInterval: (value: string) => void; favorites: string[]; onFavorite: (value: string) => void; symbols: ReturnType<typeof usePerpetualSymbols>['symbols']; contractType: ContractType; setContractType: (value: ContractType) => void; status: MarketStatus; lastMessageAt: number | null; latencyMs: number | null; onReconnect: () => void; paused: boolean; onPause: () => void; compactMode: boolean; onCompact: () => void; secondaryOpen: boolean; onSecondary: () => void; onLiquidation: () => void }) {
+  return <><header className="topbar"><div className="brand"><div className="brand-orb" aria-hidden="true"><span className="brand-orb-core" /><span className="brand-orb-ring brand-orb-ring-a" /><span className="brand-orb-ring brand-orb-ring-b" /></div><div className="brand-copy"><strong>CryptoSphere</strong><small>OrdeFlow Terminal</small><small className="brand-market">BINANCE / {contractType.toUpperCase()}</small></div></div><div className="top-divider" /><div className="contract-switch" aria-label="Contract type"><button className={contractType === 'usdt-m' ? 'active' : ''} onClick={() => setContractType('usdt-m')} data-testid="button-contract-usdt">USDT-M</button><button className={contractType === 'coin-m' ? 'active coin' : ''} onClick={() => setContractType('coin-m')} data-testid="button-contract-coin">COIN-M</button></div><SymbolPicker {...{ symbol, symbols, favorites, contractType, onSelect: setSymbol, onFavorite }} /><div className="control-group timeframes">{timeframes.map((item) => <button key={item} className={interval === item ? 'active' : ''} onClick={() => setInterval(item)} data-testid={`button-timeframe-${item}`}>{item}</button>)}</div><div className="top-actions"><button className="icon-button" onClick={onCompact} title="Toggle compact layout" data-testid="button-layout-toggle">{compactMode ? <LayoutPanelLeft size={15} /> : <Grid2X2 size={15} />}</button><button className={`icon-button ${secondaryOpen ? 'is-active' : ''}`} onClick={onSecondary} title="Show secondary analysis surfaces" aria-expanded={secondaryOpen} data-testid="button-secondary-surfaces"><SlidersHorizontal size={15} /></button><button className="icon-button liq-quick-open" onClick={onLiquidation} title="Open Liquidation Heatmap and Delta Divergence" data-testid="button-open-liquidation"><Flame size={14} /><span>LIQ</span></button><button className={`feed-button ${paused ? 'is-paused' : ''}`} onClick={onPause} data-testid="button-pause-feed">{paused ? <Play size={13} /> : <Pause size={13} />}{paused ? 'Resume' : 'Pause feed'}</button><FeedLatency latencyMs={latencyMs} status={status} /><StatusPill status={status} onReconnect={onReconnect} /></div></header><div className="ticker-strip"><div className="ticker-label"><Activity size={13} /> LIVE BINANCE FEED</div><div className="ticker-copy">Aggressive flow, liquidity & execution pressure <span>•</span> select LIQ for liquidation heatmap</div><div className="ticker-right"><span className="live-bar" /> stream interval 100ms <StreamHealth status={status} lastMessageAt={lastMessageAt} /><span className="ticker-time">{new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} UTC</span></div></div></>;
 }
 
 function ModuleRail() {
@@ -115,6 +116,7 @@ function ModuleRail() {
     { key: 'absorption-visualizer', number: '06', title: 'Absorption Visualizer', detail: 'traps / price refusal' },
      { key: 'dom-liquidity', number: '07', title: 'DOM Liquidity Walls', detail: 'passive POI absorption' },
      { key: 'iceberg-radar', number: '08', title: 'Iceberg Liquidity Radar', detail: 'hidden institutional flow' },
+     { key: 'liquidation-analytics', number: '09', title: 'Liquidation Heatmap', detail: 'exchange force orders / CVD' },
   ];
   const focusModule = (key: string) => document.getElementById(key)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   return <nav className="module-rail" aria-label="Terminal modules"><div className="module-rail-label">MODULES</div>{modules.map((module, index) => <button key={module.key} className={`module-item ${index < 3 ? 'primary' : ''}`} onClick={() => focusModule(module.key)} data-testid={`button-module-${module.key}`}><span className="module-number">{module.number}</span><span className="module-copy"><strong>{module.title}</strong><small>{module.detail}</small></span><i className="module-live">LIVE</i></button>)}</nav>;
@@ -769,9 +771,14 @@ function AppShell() {
     });
   };
   const toggleIndicator = (key: IndicatorKey) => setIndicatorVisibility((current) => ({ ...current, [key]: !current[key] }));
+  const openLiquidationModule = () => {
+    setChartFullscreen(false);
+    setSecondaryOpen(true);
+    window.setTimeout(() => document.getElementById('liquidation-analytics')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+  };
 
   return <main className={`${compactMode ? 'terminal compact' : 'terminal'}${chartFullscreen ? ' chart-fullscreen' : ''}${secondaryOpen ? ' secondary-open' : ''}`}>
-     <TopBar {...{ symbol, setSymbol: selectSymbol, interval, setInterval: changeInterval, favorites, onFavorite: toggleFavorite, symbols, contractType, setContractType: changeContract, status, lastMessageAt, latencyMs, onReconnect: reconnect, paused, onPause: () => setPaused((value) => !value), compactMode, onCompact: () => setCompactMode((value) => !value), secondaryOpen, onSecondary: () => setSecondaryOpen((value) => !value) }} />
+     <TopBar {...{ symbol, setSymbol: selectSymbol, interval, setInterval: changeInterval, favorites, onFavorite: toggleFavorite, symbols, contractType, setContractType: changeContract, status, lastMessageAt, latencyMs, onReconnect: reconnect, paused, onPause: () => setPaused((value) => !value), compactMode, onCompact: () => setCompactMode((value) => !value), secondaryOpen, onSecondary: () => setSecondaryOpen((value) => !value), onLiquidation: openLiquidationModule }} />
     {divergenceAlert && <DivergenceAlert event={divergenceAlert} onDismiss={() => setDivergenceAlert(null)} />}
     <div className="workspace">
       <div className="terminal-body">
@@ -822,6 +829,17 @@ function AppShell() {
       </div>
       <div className="secondary-surfaces">
         <div className="secondary-rail-wrap"><ModuleRail /></div>
+        <LiquidationAnalytics
+          symbol={symbol}
+          contractType={contractType}
+          candles={candles}
+          binanceLiquidations={liquidations}
+          binanceStatus={status}
+          binanceLastMessageAt={lastMessageAt}
+          binanceLatencyMs={latencyMs}
+          price={price}
+          enabled={secondaryOpen && !paused}
+        />
         <MarketRegimeDetector {...{ symbol, candles, bids, asks, trades, liquidations, status, price, lastMessageAt, pulse }} />
         <Overview {...{ symbol, price, change, quoteVolume, bids, asks, candles, status, onReconnect: reconnect }} />
         <MarketPulseBar {...pulse} imbalance={imbalance} />

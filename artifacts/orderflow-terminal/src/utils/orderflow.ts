@@ -110,6 +110,69 @@ export function detectDivergences(candles: Candle[], study: DivergenceKind): Div
   return results.slice(-4);
 }
 
+export function detectCvdSwingDivergences(
+  candles: Candle[],
+  thresholds: { minimumPriceSwingPct: number; minimumCvdShare: number },
+): Divergence[] {
+  if (candles.length < 8) return [];
+
+  const recent = candles.slice(-80);
+  const lows = recent.map((candle) => candle.low);
+  const highs = recent.map((candle) => candle.high);
+  const cvd = cumulativeStudy(recent, 'pressure');
+  const lowPivots = recent.map((_, index) => index)
+    .filter((index) => index > 0 && index < recent.length - 1 && isPivotLow(lows, index));
+  const highPivots = recent.map((_, index) => index)
+    .filter((index) => index > 0 && index < recent.length - 1 && isPivotHigh(highs, index));
+  const results: Divergence[] = [];
+
+  const deltaShareBetween = (from: number, to: number) => {
+    const volume = recent.slice(from + 1, to + 1)
+      .reduce((sum, candle) => sum + Math.max(candle.volume, 0), 0);
+    return (cvd[to] - cvd[from]) / Math.max(volume, Number.EPSILON);
+  };
+
+  for (let index = 1; index < lowPivots.length; index += 1) {
+    const from = lowPivots[index - 1];
+    const to = lowPivots[index];
+    const priceChangePct = ((lows[to] - lows[from]) / Math.max(lows[from], Number.EPSILON)) * 100;
+    const cvdShare = deltaShareBetween(from, to);
+    if (priceChangePct <= -thresholds.minimumPriceSwingPct && cvdShare >= thresholds.minimumCvdShare) {
+      results.push({
+        type: 'bullish',
+        study: 'pressure',
+        fromTime: recent[from].time,
+        toTime: recent[to].time,
+        priceFrom: lows[from],
+        priceTo: lows[to],
+        studyFrom: cvd[from],
+        studyTo: cvd[to],
+      });
+    }
+  }
+
+  for (let index = 1; index < highPivots.length; index += 1) {
+    const from = highPivots[index - 1];
+    const to = highPivots[index];
+    const priceChangePct = ((highs[to] - highs[from]) / Math.max(highs[from], Number.EPSILON)) * 100;
+    const cvdShare = deltaShareBetween(from, to);
+    if (priceChangePct >= thresholds.minimumPriceSwingPct && cvdShare <= -thresholds.minimumCvdShare) {
+      results.push({
+        type: 'bearish',
+        study: 'pressure',
+        fromTime: recent[from].time,
+        toTime: recent[to].time,
+        priceFrom: highs[from],
+        priceTo: highs[to],
+        studyFrom: cvd[from],
+        studyTo: cvd[to],
+      });
+    }
+  }
+
+  return results.sort((a, b) => a.toTime - b.toTime).slice(-4);
+}
+
 export function detectCurrentPressureDivergence(candles: Candle[]): PressureDivergenceSnapshot | null {
   const recent = candles.slice(-12);
   if (recent.length < 6) return null;

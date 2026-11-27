@@ -2868,3 +2868,180 @@ body { background: #080b0d; color: #d7e0de; font-family: var(--app-font-sans); }
   .open-interest-footer { align-items: flex-start; flex-direction: column; gap: 5px; }
   .open-interest-footer span:last-child { text-align: left; }
 }
+.liquidation-analytics {
+  overflow: hidden;
+  border: 1px solid #27383d;
+  border-radius: 5px;
+  background: #0c1216;
+  box-shadow: inset 2px 0 0 rgba(70, 217, 180, .2);
+}
+.liq-module-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px 10px;
+  border-bottom: 1px solid #202e33;
+  background: linear-gradient(110deg, #121d20, #10171c 62%, #151720);
+}
+.liq-module-title { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.liq-title-icon {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 auto;
+  border: 1px solid #28534e;
+  border-radius: 4px;
+  background: #10221f;
+  color: #58e0ba;
+  box-shadow: 0 0 14px rgba(70, 217, 180, .08);
+}
+.liq-module-title > div:last-child { display: grid; gap: 4px; min-width: 0; }
+.liq-module-title > div:last-child > span { overflow: hidden; color: #c7d8d3; font: 700 10px var(--app-font-mono); letter-spacing: .1em; text-overflow: ellipsis; white-space: nowrap; }
+.liq-module-title small { color: #647a7c; font: 8px var(--app-font-mono); letter-spacing: .04em; }
+.liq-module-live { display: inline-flex; align-items: center; gap: 6px; color: #91a5a2; font: 700 8px var(--app-font-mono); letter-spacing: .08em; }
+.liq-module-live i, .liq-feed i { width: 5px; height: 5px; border-radius: 50%; background: #65777a; }
+.liq-module-live i { background: #47ddb3; box-shadow: 0 0 8px #47ddb3; }
+.liq-latency {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(100px, 1fr)) minmax(180px, 1.5fr);
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid #202e33;
+  border-radius: 3px;
+  background: #202e33;
+}
+.liq-feed { display: flex; justify-content: space-between; align-items: center; gap: 7px; min-width: 0; padding: 7px 9px; background: #0c1418; color: #80928e; }
+.liq-feed > span { display: flex; align-items: center; gap: 6px; font: 700 8px var(--app-font-mono); letter-spacing: .06em; }
+.liq-feed strong { color: #a7bbb5; font: 600 9px var(--app-font-mono); white-space: nowrap; }
+.liq-feed.live i { background: #47ddb3; box-shadow: 0 0 7px rgba(71, 221, 179, .7); }
+.liq-feed.live strong { color: #64dcb8; }
+.liq-feed.degraded i { background: #ff6d7f; box-shadow: 0 0 7px rgba(255, 109, 127, .5); }
+.liq-feed.degraded strong { color: #ff8c99; }
+.liq-feed.connecting i, .liq-feed.paused i { background: #e5b95f; }
+.liq-latency > small { display: flex; align-items: center; padding: 0 9px; color: #5e7274; background: #0c1418; font: 7px var(--app-font-mono); letter-spacing: .04em; }
+.liq-threshold-controls {
+  display: grid;
+  grid-template-columns: auto repeat(3, minmax(135px, 1fr));
+  align-items: center;
+  gap: 9px;
+  padding: 9px 13px;
+  border-bottom: 1px solid #1e2c31;
+  background: #0e161a;
+}
+.liq-control-heading { display: inline-flex; align-items: center; gap: 6px; color: #809490; font: 700 8px var(--app-font-mono); letter-spacing: .08em; white-space: nowrap; }
+.liq-control-heading svg { color: #59dcb7; }
+.liq-threshold { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-width: 0; color: #647a7d; font: 700 7px var(--app-font-mono); letter-spacing: .05em; }
+.liq-threshold-input { display: inline-flex; align-items: center; gap: 3px; padding: 4px 6px; border: 1px solid #293a3e; border-radius: 3px; color: #849996; white-space: nowrap; }
+.liq-threshold-input:focus-within { border-color: #3a8277; color: #64dcb8; }
+.liq-threshold-input input { width: 76px; min-width: 0; border: 0; outline: 0; background: transparent; color: #d3e2dd; font: 9px var(--app-font-mono); }
+.liq-threshold:nth-of-type(3) .liq-threshold-input input { width: 44px; }
+.liq-threshold:nth-of-type(4) .liq-threshold-input input { width: 42px; }
+.liq-module-content { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(300px, .8fr); gap: 10px; padding: 10px; }
+.liq-heat-section, .liq-delta-section { min-width: 0; border: 1px solid #202e33; border-radius: 3px; background: #0b1216; }
+.liq-section-heading { display: flex; justify-content: space-between; align-items: center; gap: 8px; min-height: 34px; padding: 0 9px; border-bottom: 1px solid #1d2b30; background: #10191d; }
+.liq-section-heading > div:first-child, .liq-cvd-heading > div:first-child { display: flex; align-items: center; gap: 6px; min-width: 0; color: #b0c1bc; font: 700 8px var(--app-font-mono); letter-spacing: .07em; }
+.liq-section-heading svg, .liq-cvd-heading svg { color: #53daba; }
+.liq-window-control { display: flex; gap: 3px; }
+.liq-window-control button { padding: 4px 6px; border: 1px solid transparent; border-radius: 2px; background: transparent; color: #607679; cursor: pointer; font: 700 7px var(--app-font-mono); }
+.liq-window-control button:hover, .liq-window-control button.active { border-color: rgba(70, 217, 180, .3); background: rgba(70, 217, 180, .08); color: #8fe6d0; }
+.liq-grid-wrap { padding: 8px 9px 9px; }
+.liq-grid-summary { display: flex; justify-content: space-between; gap: 8px; margin-bottom: 7px; color: #607477; font: 7px var(--app-font-mono); letter-spacing: .05em; }
+.liq-grid-summary b { color: #a8c1b9; font-weight: 600; }
+.liq-grid-chart { display: grid; grid-template-columns: 58px minmax(0, 1fr); gap: 7px; }
+.liq-price-axis { display: flex; flex-direction: column; justify-content: space-between; align-items: flex-end; padding: 1px 0; color: #627477; font: 7px var(--app-font-mono); }
+.liq-grid-cells {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(36, minmax(0, 1fr));
+  grid-template-rows: repeat(18, minmax(9px, 1fr));
+  gap: 2px;
+  min-height: 218px;
+  overflow: hidden;
+  border: 1px solid #202d32;
+  background: #10171b;
+}
+.liq-grid-cells > i { min-width: 0; background: #172126; }
+.liq-cell { z-index: 1; min-width: 0; min-height: 0; border: 1px solid rgba(235, 255, 250, .1); border-radius: 1px; }
+.liq-cell.buy { background: #43e2ba; box-shadow: 0 0 7px rgba(67, 226, 186, .55); }
+.liq-cell.sell { background: #ff627b; box-shadow: 0 0 7px rgba(255, 98, 123, .5); }
+.liq-cell.mixed { background: #d2a7ff; box-shadow: 0 0 7px rgba(210, 167, 255, .4); }
+.liq-current-price { position: absolute; z-index: 2; right: 0; left: 0; height: 1px; border-top: 1px dashed #e6d16c; pointer-events: none; }
+.liq-current-price span { position: absolute; top: -9px; right: 2px; padding: 2px 3px; background: #171a13; color: #f0dc78; font: 7px var(--app-font-mono); }
+.liq-time-axis { display: flex; justify-content: space-between; margin: 5px 0 7px 65px; color: #5d7073; font: 7px var(--app-font-mono); }
+.liq-legend { display: flex; align-items: center; flex-wrap: wrap; gap: 9px; padding: 6px 0; border-top: 1px solid #1d2a2f; color: #718381; font: 7px var(--app-font-mono); }
+.liq-legend span { display: inline-flex; align-items: center; gap: 4px; }
+.liq-legend i { width: 6px; height: 6px; border-radius: 1px; }
+.liq-legend i.buy { background: #43e2ba; }
+.liq-legend i.sell { background: #ff627b; }
+.liq-legend small { margin-left: auto; color: #56696d; font-size: 7px; }
+.liq-event-list { display: grid; gap: 1px; max-height: 112px; overflow: auto; background: #1d2a2f; }
+.liq-event-row { display: grid; grid-template-columns: 42px minmax(56px, .7fr) minmax(60px, 1fr) 48px 66px; align-items: center; gap: 6px; min-height: 25px; padding: 0 6px; background: #0d1519; color: #8a9c99; font: 8px var(--app-font-mono); }
+.liq-event-side { color: #849893; font-size: 7px; }
+.liq-event-side.buy { color: #50ddb6; }
+.liq-event-side.sell { color: #ff7789; }
+.liq-event-row b { overflow: hidden; color: #bbccc6; font-weight: 600; text-overflow: ellipsis; white-space: nowrap; }
+.liq-event-row small { color: #63817c; font: 7px var(--app-font-mono); }
+.liq-event-row time { color: #647578; text-align: right; }
+.liq-empty { display: grid; place-items: center; min-height: 65px; padding: 12px; color: #687b7e; font: 8px var(--app-font-mono); text-align: center; line-height: 1.5; }
+.liq-cvd-panel { height: 100%; min-height: 280px; border-left: 2px solid #2e7770; background: radial-gradient(ellipse at 100% 0%, rgba(32, 90, 78, .12), transparent 55%), #0b1216; }
+.liq-cvd-panel.alert.bullish { border-left-color: #44e2b9; background: radial-gradient(ellipse at 100% 0%, rgba(22, 126, 91, .2), transparent 60%), #0b1216; }
+.liq-cvd-panel.alert.bearish { border-left-color: #ff657d; background: radial-gradient(ellipse at 100% 0%, rgba(129, 38, 58, .2), transparent 60%), #0b1216; }
+.liq-cvd-heading { display: flex; justify-content: space-between; align-items: center; gap: 8px; min-height: 34px; padding: 0 9px; border-bottom: 1px solid #1d2b30; background: rgba(16, 25, 29, .72); }
+.liq-cvd-heading > div:first-child { font-size: 8px; }
+.liq-alert-state, .liq-watch-state { display: inline-flex; align-items: center; gap: 4px; color: #6b8280; font: 700 7px var(--app-font-mono); white-space: nowrap; }
+.liq-alert-state { color: #62e2bc; }
+.liq-cvd-panel.alert.bearish .liq-alert-state { color: #ff7789; }
+.liq-cvd-method { margin: 0; padding: 8px 10px; color: #758785; font-size: 9px; line-height: 1.45; }
+.liq-divergence-list { display: grid; gap: 1px; margin: 0 8px; background: #1d2a2f; }
+.liq-divergence-row { display: grid; grid-template-columns: 47px minmax(110px, 1fr) minmax(108px, .9fr) 57px; align-items: center; gap: 6px; min-height: 48px; padding: 5px 7px; background: #0f171b; }
+.liq-divergence-row.current { background: #12201f; box-shadow: inset 2px 0 0 #48ddb5; }
+.liq-divergence-row.bearish.current { background: #201519; box-shadow: inset 2px 0 0 #ff687e; }
+.liq-divergence-type { color: #52dcb4; font: 700 7px var(--app-font-mono); }
+.liq-divergence-row.bearish .liq-divergence-type { color: #ff7889; }
+.liq-divergence-copy { color: #bac9c4; font-size: 8px; line-height: 1.35; }
+.liq-divergence-values { color: #b9cac4; font: 8px var(--app-font-mono); text-align: right; white-space: nowrap; }
+.liq-divergence-values small { display: block; margin-top: 4px; color: #78908a; font-size: 7px; }
+.liq-divergence-row time { color: #667a7c; font: 7px var(--app-font-mono); text-align: right; }
+.liq-cvd-foot { margin-top: 8px; padding: 7px 9px; border-top: 1px solid #1d2a2f; color: #607476; font: 7px var(--app-font-mono); letter-spacing: .04em; }
+.liq-module-foot { padding: 8px 12px; border-top: 1px solid #202e33; background: #0e1519; color: #657779; font: 8px var(--app-font-mono); line-height: 1.45; }
+@media (max-width: 900px) {
+  .liq-module-content { grid-template-columns: 1fr; }
+  .liq-cvd-panel { min-height: 0; border-left: 0; border-top: 2px solid #2e7770; }
+  .liq-cvd-panel.alert.bullish { border-top-color: #44e2b9; }
+  .liq-cvd-panel.alert.bearish { border-top-color: #ff657d; }
+}
+@media (max-width: 620px) {
+  .liq-module-head { align-items: start; gap: 8px; padding: 10px; }
+  .liq-module-live { padding-top: 8px; }
+  .liq-module-title > div:last-child > span { white-space: normal; line-height: 1.4; }
+  .liq-latency { grid-template-columns: 1fr 1fr; }
+  .liq-latency > small { grid-column: 1 / -1; min-height: 25px; }
+  .liq-threshold-controls { grid-template-columns: 1fr 1fr; gap: 8px; padding: 9px; }
+  .liq-control-heading { grid-column: 1 / -1; }
+  .liq-threshold { align-items: flex-start; flex-direction: column; gap: 4px; }
+  .liq-threshold-input { width: 100%; }
+  .liq-threshold-input input { flex: 1; width: auto; }
+  .liq-module-content { gap: 8px; padding: 7px; }
+  .liq-grid-cells { min-height: 180px; grid-template-rows: repeat(18, minmax(7px, 1fr)); gap: 1px; }
+  .liq-grid-chart { grid-template-columns: 48px minmax(0, 1fr); gap: 5px; }
+  .liq-time-axis { margin-left: 53px; }
+  .liq-legend { gap: 7px; }
+  .liq-legend small { flex: 1 1 100%; margin-left: 0; }
+  .liq-divergence-row { grid-template-columns: 43px minmax(75px, 1fr) auto; gap: 5px; }
+  .liq-divergence-row time { grid-column: 3; }
+  .liq-divergence-values { grid-column: 2; grid-row: 2; text-align: left; }
+  .liq-divergence-copy { grid-column: 2 / -1; }
+  .liq-event-row { grid-template-columns: 35px minmax(45px, .7fr) minmax(52px, 1fr) 38px 55px; gap: 4px; font-size: 7px; }
+}
+.liq-quick-open {
+  width: auto;
+  padding: 0 8px;
+  border-color: #31574f;
+  color: #83e7c7;
+  font: 700 8px var(--app-font-mono);
+  letter-spacing: .08em;
+}
+.liq-quick-open:hover { border-color: #4bd7b0; color: #adffe2; box-shadow: 0 0 10px rgba(70, 217, 180, .14); }
